@@ -8,7 +8,7 @@ namespace ZMDB.Grains
     {
         private readonly ILogger _logger;
 
-        public ValueTask<string> IMovie.SayHello(string greeting)
+        ValueTask<string> IMovie.SayHello(string greeting)
         {
             _logger.LogInformation(
                 "SayHello message received: greeting = '{Greeting}'", greeting);
