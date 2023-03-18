@@ -2,7 +2,6 @@
 using Orleans.Hosting;
 using System.Diagnostics;
 using System.Net;
-using ZMDB.BackHost.Utils;
 using HostBuilderContext = Microsoft.Extensions.Hosting.HostBuilderContext;
 
 namespace ZMDB.BackHost.Extensions
@@ -34,7 +33,16 @@ namespace ZMDB.BackHost.Extensions
     {
         private static StorageProviderType _defaultProviderType;
 
-        public static ISiloBuilder UseAppConfiguration(this ISiloBuilder siloHost, AppSiloBuilderContext context)
+        public static ISiloBuilder InitZMDBSilos(this ISiloBuilder siloBuilder, AppSiloBuilderContext context)
+        {
+            siloBuilder
+                .UseAppConfiguration(context)
+                .UseStorage("moviesDatabase", context.AppInfo, context.HostBuilderContext, StorageProviderType.Memory, "movies");
+
+            return siloBuilder;
+        }
+
+        private static ISiloBuilder UseAppConfiguration(this ISiloBuilder siloHost, AppSiloBuilderContext context)
         {
             _defaultProviderType = context.SiloOptions.StorageProviderType ?? StorageProviderType.Memory;
 

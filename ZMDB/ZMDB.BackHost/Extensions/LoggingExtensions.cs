@@ -1,5 +1,5 @@
 ﻿using Serilog;
-using ZMDB.BackHost.Utils;
+using ZMDB.Core.Configuration;
 
 namespace ZMDB.BackHost.Extensions
 {

@@ -1,11 +1,15 @@
-﻿using Orleans.Configuration;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Orleans.Configuration;
 using Orleans.Hosting;
 using System.Diagnostics;
 using System.Net;
-using ZMDB.BackHost.Utils;
-using HostBuilderContext = Microsoft.Extensions.Hosting.HostBuilderContext;
+using ZMDB.Core.Configuration;
+using ZMDB.GrainInterfaces;
+using ZMDB.Grains;
+using ZMDB.Grains.GrainClients;
 
-namespace ZMDB.BackHost.Extensions
+namespace ZMDB.Core.Extensions
 {
     public enum StorageProviderType
     {
@@ -38,8 +42,8 @@ namespace ZMDB.BackHost.Extensions
         {
             siloBuilder
                 .UseAppConfiguration(context)
-                .UseStorage("moviesDatabase", context.AppInfo, context.HostBuilderContext, StorageProviderType.Memory, "movies");
-
+                .UseStorage("moviesDatabase", context.AppInfo, context.HostBuilderContext, StorageProviderType.Memory, "movies")
+                .AddMovieGrainClients();
             return siloBuilder;
         }
 

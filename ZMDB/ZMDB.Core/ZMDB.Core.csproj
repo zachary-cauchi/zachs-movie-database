@@ -7,7 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Orleans.Core" Version="7.1.0" />
     <PackageReference Include="Microsoft.Orleans.Core.Abstractions" Version="7.1.0" />
+    <PackageReference Include="Microsoft.Orleans.Persistence.Memory" Version="7.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ZMDB.GrainInterfaces\ZMDB.GrainInterfaces.csproj" />
+    <ProjectReference Include="..\ZMDB.Grains\ZMDB.Grains.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,6 @@
-﻿namespace ZMDB.BackHost.Utils
+﻿using Microsoft.Extensions.Configuration;
+
+namespace ZMDB.Core.Configuration
 {
     public interface IAppInfo
     {

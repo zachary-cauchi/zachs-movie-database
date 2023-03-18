@@ -1,12 +1,13 @@
 using Serilog;
 using System.Net.Sockets;
-using ZMDB.BackHost.Utils;
+using ZMDB.Core;
 using ZMDB.BackHost.Extensions;
-using ZMDB.GrainFilters;
 using ZMDB.BackHost.Configurations;
-using Orleans;
-using Orleans.Configuration;
-using Orleans.Hosting;
+using ZMDB.MovieServer;
+using ZMDB.Core.Configuration;
+using ZMDB.Core.Extensions;
+using ZMDB.Grains;
+using ZMDB.Core.GrainFilters;
 
 namespace ZMDB.BackHost
 {
@@ -23,13 +24,6 @@ namespace ZMDB.BackHost
             Console.Title = $"{appInfo.Name} - {appInfo.Environment}";
             builder.Services.AddSingleton<IAppInfo>(appInfo);
 
-            //builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
-            builder.ConfigureAuth0();
-            builder.Services.AddControllersWithViews();
-
             builder.Host.UseSerilog((ctx, loggerConfig) =>
             {
                 loggerConfig.Enrich.FromLogContext()
@@ -44,18 +38,27 @@ namespace ZMDB.BackHost
             builder.Host.UseOrleans((ctx, siloBuilder) =>
             {
                 siloBuilder.InitZMDBSilos(new AppSiloBuilderContext()
+                {
+                    AppInfo = appInfo,
+                    HostBuilderContext = ctx,
+                    SiloOptions = new AppSiloOptions()
                     {
-                        AppInfo = appInfo,
-                        HostBuilderContext = ctx,
-                        SiloOptions = new AppSiloOptions()
-                        {
-                            SiloPort = GetAvailablePort(11111, 12000),
-                            GatewayPort = ctx.Configuration.GetValue("orleans:gatewayPort", 30001)
-                        }
-                    })
+                        SiloPort = GetAvailablePort(11111, 12000),
+                        GatewayPort = ctx.Configuration.GetValue("orleans:gatewayPort", 30001)
+                    }
+                })
                 .AddIncomingGrainCallFilter<LoggingIncomingCallFilter>()
                 .UseDashboard(x => x.HostSelf = true);
             });
+
+            //builder.Services.AddControllers();
+            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
+            builder.ConfigureAuth0();
+            builder.Services.AddControllersWithViews();
+
+            builder.Services.UseMovieServices();
 
             var app = builder.Build();
 
