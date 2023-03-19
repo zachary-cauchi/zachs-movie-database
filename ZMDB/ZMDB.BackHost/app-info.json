@@ -1,0 +1,8 @@
+{
+  "__NOTE__": "DO NOT MODIFY THESE MANUALLY! Auto-generated during CI!",
+  "AppInfo": {
+    "appName": "@zmdb/zmdb",
+    "gitCommit": "-",
+    "version": "local"
+  }
+}

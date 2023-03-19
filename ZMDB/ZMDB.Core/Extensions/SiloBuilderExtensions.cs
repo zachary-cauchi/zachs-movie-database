@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Hosting;
 using Orleans.Configuration;
 using Orleans.Hosting;
+using Orleans.Serialization;
 using System.Diagnostics;
 using System.Net;
 using ZMDB.Core.Configuration;
@@ -43,7 +44,11 @@ namespace ZMDB.Core.Extensions
             siloBuilder
                 .UseAppConfiguration(context)
                 .UseStorage("moviesDatabase", context.AppInfo, context.HostBuilderContext, StorageProviderType.Memory, "movies")
-                .AddMovieGrainClients();
+                .AddMovieGrainClients()
+                .Services.AddSerializer(serializerBuilder =>
+                {
+                    serializerBuilder.AddNewtonsoftJsonSerializer(isSupported: type => type.Namespace.StartsWith("ZMDB"));
+                });
             return siloBuilder;
         }
 
@@ -84,8 +89,7 @@ namespace ZMDB.Core.Extensions
             var gatewayPort = context.SiloOptions.GatewayPort;
 
             return siloHost
-                    .UseLocalhostClustering(siloPort: siloPort, gatewayPort: gatewayPort)
-                ;
+                    .UseLocalhostClustering(siloPort: siloPort, gatewayPort: gatewayPort);
         }
 
         public static ISiloBuilder UseStorage(this ISiloBuilder siloBuilder, string storeProviderName, IAppInfo appInfo, HostBuilderContext context, StorageProviderType? storageProvider = null, string storeName = null)
@@ -96,7 +100,7 @@ namespace ZMDB.Core.Extensions
             switch (storageProvider)
             {
                 case StorageProviderType.Memory:
-                    siloBuilder.AddMemoryGrainStorage(storeProviderName);
+                    siloBuilder.AddMemoryGrainStorage(storeName);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(storageProvider), $"Storage provider '{storageProvider}' is not supported.");

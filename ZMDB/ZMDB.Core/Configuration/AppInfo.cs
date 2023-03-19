@@ -66,12 +66,12 @@ namespace ZMDB.Core.Configuration
 
         public AppInfo(IConfiguration config)
         {
-            Name = config.GetValue("AppInfo.AppName", "app");
-            Version = config.GetValue("AppInfo.Version", "local");
-            GitCommit = config.GetValue("AppInfo.GitCommit", "-");
+            Name = config.GetValue("AppInfo:appName", "app");
+            Version = config.GetValue("AppInfo:version", "local");
+            GitCommit = config.GetValue("AppInfo:gitCommit", "-");
             Environment = config.GetValue<string>("ASPNETCORE_ENVIRONMENT");
             IsDockerized = config.GetValue<bool>("DOCKER");
-            ServiceType = config.GetValue("AppInfo.ServiceType", "dotnet");
+            ServiceType = config.GetValue("AppInfo:serviceType", "dotnet");
             ShortName = Name.Split('/').Last();
 
             if (string.IsNullOrEmpty(Environment))

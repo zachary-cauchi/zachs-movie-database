@@ -20,9 +20,9 @@ namespace ZMDB.Core.GrainFilters
         {
             var grainType = context.Grain.GetType();
             var grainName = grainType.GetDemystifiedName();
-            var shouldHaveDetailedTrace = grainType.Namespace.Contains("Movies"); // todo: Create log filter mechanism
+            var shouldHaveDetailedTrace = grainType.Namespace.StartsWith("ZMDB.Grains");
 
-            if (!shouldHaveDetailedTrace)
+             if (!shouldHaveDetailedTrace)
             {
                 await context.Invoke();
                 return;
@@ -80,7 +80,7 @@ namespace ZMDB.Core.GrainFilters
         {
             var grainType = context.Grain.GetType();
             var grainName = grainType.GetDemystifiedName();
-            var shouldHaveDetailedTrace = grainType.Namespace.Contains("Movies"); // todo: Create log filter mechanism
+            var shouldHaveDetailedTrace = grainType.Namespace.StartsWith("ZMDB.Grains");
 
             if (!shouldHaveDetailedTrace)
             {
