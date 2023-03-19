@@ -9,6 +9,7 @@ using ZMDB.Core.Extensions;
 using ZMDB.Grains;
 using ZMDB.Core.GrainFilters;
 using Microsoft.Extensions.Logging.Configuration;
+using ZMDB.Core.StartupTasks;
 
 namespace ZMDB.BackHost
 {
@@ -19,14 +20,14 @@ namespace ZMDB.BackHost
 
             var builder = WebApplication.CreateBuilder(args);
             builder.Configuration.AddJsonFile("app-info.json");
+            builder.Services.Configure<PreloadMoviesOptions>(builder.Configuration.GetSection(PreloadMoviesOptions.PreloadMovies));
 
             // Load all information about the app ahead of any services or post-configuration that may need it.
             IAppInfo appInfo = new AppInfo(builder.Configuration);
             Console.Title = $"{appInfo.Name} - {appInfo.Environment}";
             builder.Services.AddSingleton<IAppInfo>(appInfo);
 
-            var level = builder.Configuration.GetValue<string>("Logging:LogLevel:Default");
-
+            
             builder.Host.UseSerilog((ctx, loggerConfig) =>
             {
                 loggerConfig.Enrich.FromLogContext()
@@ -59,6 +60,7 @@ namespace ZMDB.BackHost
                 })
                 .AddIncomingGrainCallFilter<LoggingIncomingCallFilter>()
                 .AddOutgoingGrainCallFilter<LoggingOutgoingCallFilter>()
+                .AddStartupTask<MovieGrainPreloaderStartupTask>()
                 .UseDashboard(x => x.HostSelf = true);
             });
 
