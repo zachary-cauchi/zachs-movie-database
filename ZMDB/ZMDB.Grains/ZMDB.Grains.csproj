@@ -11,6 +11,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Orleans.Persistence.AdoNet" Version="7.1.0" />
     <PackageReference Include="Microsoft.Orleans.Runtime" Version="7.1.0" />
   </ItemGroup>
 

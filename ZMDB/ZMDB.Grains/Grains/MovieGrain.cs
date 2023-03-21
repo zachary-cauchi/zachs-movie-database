@@ -14,7 +14,7 @@ namespace ZMDB.Grains.Grains
         public MovieGrain(
             [PersistentState(
                 stateName: "movie",
-                storageName: "movies")]
+                storageName: "zmdb_movies_database")]
             IPersistentState<Movie> state
         )
         {

@@ -14,8 +14,8 @@ namespace ZMDB.Core.Extensions
 {
     public enum StorageProviderType
     {
-        Memory,
-        SqlDb
+        MEMORY,
+        POSTGRESQL
     }
 
     [DebuggerDisplay("{DebuggerDisplay,nq}")]
@@ -33,6 +33,8 @@ namespace ZMDB.Core.Extensions
         public HostBuilderContext HostBuilderContext { get; set; }
         public IAppInfo AppInfo { get; set; }
         public AppSiloOptions SiloOptions { get; set; }
+
+        public List<SiloPersistenceOptions> SiloPersistenceOptionsList { get; set; }
     }
 
     public static class SiloBuilderExtensions
@@ -43,7 +45,7 @@ namespace ZMDB.Core.Extensions
         {
             siloBuilder
                 .UseAppConfiguration(context)
-                .UseStorage("moviesDatabase", context.AppInfo, context.HostBuilderContext, StorageProviderType.Memory, "movies")
+                .UseStorage("moviesDatabase", context.AppInfo, context.HostBuilderContext, StorageProviderType.MEMORY, "movies")
                 .AddMovieGrainClients()
                 .Services.AddSerializer(serializerBuilder =>
                 {
@@ -54,7 +56,7 @@ namespace ZMDB.Core.Extensions
 
         private static ISiloBuilder UseAppConfiguration(this ISiloBuilder siloHost, AppSiloBuilderContext context)
         {
-            _defaultProviderType = context.SiloOptions.StorageProviderType ?? StorageProviderType.Memory;
+            _defaultProviderType = context.SiloOptions.StorageProviderType ?? StorageProviderType.MEMORY;
 
             var appInfo = context.AppInfo;
             siloHost
@@ -64,7 +66,7 @@ namespace ZMDB.Core.Extensions
                     options.ClusterId = appInfo.ClusterId;
                     options.ServiceId = appInfo.Name;
                 });
-
+            siloHost.ConfigurePersistences(context.SiloPersistenceOptionsList);
             siloHost.UseDevelopment(context);
             siloHost.UseDevelopmentClustering(context);
 
@@ -92,6 +94,27 @@ namespace ZMDB.Core.Extensions
                     .UseLocalhostClustering(siloPort: siloPort, gatewayPort: gatewayPort);
         }
 
+        public static ISiloBuilder ConfigurePersistences(this ISiloBuilder siloBuilder, List<SiloPersistenceOptions> siloPersistences)
+        {
+            foreach (SiloPersistenceOptions options in siloPersistences)
+            {
+                switch (options.Type)
+                {
+                    case SiloPersistenceTypes.POSTGRESQL:
+                        siloBuilder.AddAdoNetGrainStorage(options.Name, o =>
+                        {
+                            o.Invariant = options.Invariant;
+                            o.ConnectionString = options.ConnectionString;
+                        });
+                        break;
+                    default:
+                        continue;
+                }
+            }
+
+            return siloBuilder;
+        }
+
         public static ISiloBuilder UseStorage(this ISiloBuilder siloBuilder, string storeProviderName, IAppInfo appInfo, HostBuilderContext context, StorageProviderType? storageProvider = null, string storeName = null)
         {
             storeName = string.IsNullOrWhiteSpace(storeName) ? storeProviderName : storeName;
@@ -99,7 +122,7 @@ namespace ZMDB.Core.Extensions
 
             switch (storageProvider)
             {
-                case StorageProviderType.Memory:
+                case StorageProviderType.MEMORY:
                     siloBuilder.AddMemoryGrainStorage(storeName);
                     break;
                 default:

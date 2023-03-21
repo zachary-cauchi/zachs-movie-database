@@ -21,12 +21,13 @@ namespace ZMDB.BackHost
             var builder = WebApplication.CreateBuilder(args);
             builder.Configuration.AddJsonFile("app-info.json");
             builder.Services.Configure<PreloadMoviesOptions>(builder.Configuration.GetSection(PreloadMoviesOptions.PreloadMovies));
+            List<SiloPersistenceOptions> siloPersistenceOptions = new List<SiloPersistenceOptions>();
+            builder.Configuration.GetSection("SiloConfiguration:Persistences").Bind(siloPersistenceOptions);
 
             // Load all information about the app ahead of any services or post-configuration that may need it.
             IAppInfo appInfo = new AppInfo(builder.Configuration);
             Console.Title = $"{appInfo.Name} - {appInfo.Environment}";
             builder.Services.AddSingleton<IAppInfo>(appInfo);
-
             
             builder.Host.UseSerilog((ctx, loggerConfig) =>
             {
@@ -56,7 +57,8 @@ namespace ZMDB.BackHost
                     {
                         SiloPort = GetAvailablePort(11111, 12000),
                         GatewayPort = ctx.Configuration.GetValue("orleans:gatewayPort", 30001)
-                    }
+                    },
+                    SiloPersistenceOptionsList = siloPersistenceOptions
                 })
                 .AddIncomingGrainCallFilter<LoggingIncomingCallFilter>()
                 .AddOutgoingGrainCallFilter<LoggingOutgoingCallFilter>()
