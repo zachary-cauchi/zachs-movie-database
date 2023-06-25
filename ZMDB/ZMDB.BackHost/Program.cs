@@ -30,11 +30,16 @@ namespace ZMDB.BackHost
             
             builder.Host.UseSerilog((ctx, loggerConfig) =>
             {
+                string logPath = Path.Combine(
+                    builder.Configuration.GetValue<string>("Logging:FileOptions:Location") ?? "logs",
+                    builder.Configuration.GetValue<string>("Logging:FileOptions:Filename") ?? "zmdb.log"
+                    );
                 loggerConfig.Enrich.FromLogContext()
                     .ReadFrom.Configuration(ctx.Configuration)
                     .Enrich.WithMachineName()
                     .Enrich.WithDemystifiedStackTraces()
-                    .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] [{SourceContext:l}] {Message:lj}{NewLine}{Exception}");
+                    .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] [{SourceContext:l}] {Message:lj}{NewLine}{Exception}")
+                    .WriteTo.File(logPath, outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] [{SourceContext:l}] {Message:lj}{NewLine}{Exception}", rollingInterval: RollingInterval.Day);
 
                 loggerConfig.WithAppInfo(appInfo);
             });
