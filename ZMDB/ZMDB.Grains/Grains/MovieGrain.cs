@@ -32,5 +32,12 @@ namespace ZMDB.Grains.Grains
 
             await _state.WriteStateAsync();
         }
+
+        public override Task OnActivateAsync(CancellationToken cancellationToken)
+        {
+            this._state.State.Id = this.GetPrimaryKeyLong();
+
+            return base.OnActivateAsync(cancellationToken);
+        }
     }
 }

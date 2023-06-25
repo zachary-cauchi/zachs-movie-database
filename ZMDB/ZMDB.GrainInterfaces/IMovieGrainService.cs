@@ -9,7 +9,7 @@ namespace ZMDB.GrainInterfaces
 {
     public interface IMovieGrainService
     {
-        Task<Movie> GetMovie(int id);
-        Task SetMovie(int id, Movie movie);
+        Task<Movie> GetMovie(long id);
+        Task SetMovie(long id, Movie movie);
     }
 }

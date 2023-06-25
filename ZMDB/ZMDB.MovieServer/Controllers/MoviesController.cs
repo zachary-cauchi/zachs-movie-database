@@ -28,13 +28,13 @@ namespace ZMDB.MovieServer.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<Movie> Get([FromRoute] int id)
+        public async Task<Movie> Get([FromRoute] long id)
         {
             return await _movieService.GetMovie(id);
         }
 
         [HttpPost("{id}")]
-        public async Task Set([FromRoute] int id, [FromBody] Movie movie)
+        public async Task Set([FromRoute] long id, [FromBody] Movie movie)
         {
             await _movieService.SetMovie(id, movie).ConfigureAwait(false);
         }

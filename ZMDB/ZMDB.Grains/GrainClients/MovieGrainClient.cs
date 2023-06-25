@@ -21,14 +21,14 @@ namespace ZMDB.Grains.GrainClients
             _grainFactory = grainFactory;
         }
 
-        public Task<Movie> Get(int id)
+        public Task<Movie> Get(long id)
         {
             var grain = _grainFactory.GetGrain<IMovieGrain>(id);
 
             return grain.GetMovie();
         }
 
-        public Task Set(int id, Movie movie)
+        public Task Set(long id, Movie movie)
         {
             movie.Id = id;
 
