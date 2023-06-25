@@ -1,10 +1,11 @@
 ﻿using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations.Schema;
+using ZMDB.MovieContracts.Interfaces;
 
 namespace ZMDB.MovieContracts.Movie
 {
     [Table("Movies")]
-    public class Movie
+    public class Movie : AuditableObject
     {
 
         [JsonProperty(PropertyName = "id")]

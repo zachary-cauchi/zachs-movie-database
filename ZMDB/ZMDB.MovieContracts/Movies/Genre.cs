@@ -5,11 +5,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ZMDB.MovieContracts.Interfaces;
 
 namespace ZMDB.MovieContracts.Movie
 {
     [Table("Genres")]
-    public class Genre
+    public class Genre : AuditableObject
     {
 
         [JsonProperty(PropertyName = "Id")]
