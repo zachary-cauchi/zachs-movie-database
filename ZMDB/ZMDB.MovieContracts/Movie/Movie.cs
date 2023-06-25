@@ -1,7 +1,9 @@
 ﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ZMDB.MovieContracts.Movie
 {
+    [Table("Movies")]
     public class Movie
     {
 
@@ -18,7 +20,7 @@ namespace ZMDB.MovieContracts.Movie
         public string Description { get; set; } = String.Empty;
 
         [JsonProperty(PropertyName = "genres")]
-        public IList<string> Genres { get; set; } = new List<string>();
+        public IList<Genre> Genres { get; set; } = new List<Genre>();
 
         [JsonProperty(PropertyName = "rate")]
         public string Rate { get; set; } = String.Empty;

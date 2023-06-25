@@ -1,15 +1,14 @@
 using Serilog;
 using System.Net.Sockets;
-using ZMDB.Core;
 using ZMDB.BackHost.Extensions;
 using ZMDB.BackHost.Configurations;
 using ZMDB.MovieServer;
 using ZMDB.Core.Configuration;
 using ZMDB.Core.Extensions;
-using ZMDB.Grains;
 using ZMDB.Core.GrainFilters;
 using Microsoft.Extensions.Logging.Configuration;
 using ZMDB.Core.StartupTasks;
+using ZMDB.MovieContracts;
 
 namespace ZMDB.BackHost
 {
@@ -21,7 +20,7 @@ namespace ZMDB.BackHost
             var builder = WebApplication.CreateBuilder(args);
             builder.Configuration.AddJsonFile("app-info.json");
             builder.Services.Configure<PreloadMoviesOptions>(builder.Configuration.GetSection(PreloadMoviesOptions.PreloadMovies));
-            List<SiloPersistenceOptions> siloPersistenceOptions = new List<SiloPersistenceOptions>();
+            List<SiloPersistenceOptions> siloPersistenceOptions = new ();
             builder.Configuration.GetSection("SiloConfiguration:Persistences").Bind(siloPersistenceOptions);
 
             // Load all information about the app ahead of any services or post-configuration that may need it.
@@ -74,6 +73,9 @@ namespace ZMDB.BackHost
             builder.Services.AddControllersWithViews();
 
             builder.Services.UseMovieServices();
+
+            // Configure the DBContexts
+            builder.Services.AddMovieDbContexts(builder.Configuration);
 
             var app = builder.Build();
 

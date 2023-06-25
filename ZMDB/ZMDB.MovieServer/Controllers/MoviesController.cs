@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ZMDB.Grains.Grains;
+using ZMDB.MovieContracts.DbContexts;
 using ZMDB.MovieContracts.Movie;
 using ZMDB.MovieServer.Services;
 
@@ -15,10 +16,15 @@ namespace ZMDB.MovieServer.Controllers
     public class MoviesController : Controller
     {
         private readonly MoviesService _movieService;
+        private readonly MovieDbContext _movieDbContext;
 
-        public MoviesController(MoviesService movieService)
+        public MoviesController(
+            MoviesService movieService,
+            MovieDbContext movieDbContext
+            )
         {
             _movieService = movieService;
+            _movieDbContext = movieDbContext;
         }
 
         [HttpGet("{id}")]

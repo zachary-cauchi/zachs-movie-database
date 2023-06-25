@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ZMDB.GrainInterfaces;
+using ZMDB.MovieContracts.DbContexts;
 using ZMDB.MovieContracts.Movie;
 
 namespace ZMDB.MovieServer.Services
@@ -12,7 +13,9 @@ namespace ZMDB.MovieServer.Services
     {
         private readonly IMovieGrainClient _movieGrainClient;
 
-        public MoviesService(IMovieGrainClient movieGrainClient)
+        public MoviesService(
+            IMovieGrainClient movieGrainClient
+            )
         {
             _movieGrainClient = movieGrainClient;
         }

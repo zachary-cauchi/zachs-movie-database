@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.3.32811.315
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZMDB.BackHost", "ZMDB.BackHost\ZMDB.BackHost.csproj", "{126F7B77-7E15-4C5E-A807-6085F287AB13}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7B9E5423-B3BF-4F7A-A3B5-2E9C4E3BC5CF} = {7B9E5423-B3BF-4F7A-A3B5-2E9C4E3BC5CF}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZMDB.Grains", "ZMDB.Grains\ZMDB.Grains.csproj", "{D6A89855-F871-4E08-AB37-5E5E4AA772FB}"
 EndProject
@@ -11,9 +14,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZMDB.GrainInterfaces", "ZMD
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZMDB.Core", "ZMDB.Core\ZMDB.Core.csproj", "{6BF4C604-8B5B-438C-8F17-B2881B2B2783}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZMDB.MovieServer", "ZMDB.MovieServer\ZMDB.MovieServer.csproj", "{08EB731F-0103-43A0-95ED-F12929679632}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZMDB.MovieServer", "ZMDB.MovieServer\ZMDB.MovieServer.csproj", "{08EB731F-0103-43A0-95ED-F12929679632}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZMDB.MovieContracts", "ZMDB.MovieContracts\ZMDB.MovieContracts.csproj", "{5113B74B-152F-4DFD-8353-8BDC6E683A0C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZMDB.MovieContracts", "ZMDB.MovieContracts\ZMDB.MovieContracts.csproj", "{5113B74B-152F-4DFD-8353-8BDC6E683A0C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZMDB.DbContexts", "ZMDB.DbContexts\ZMDB.DbContexts.csproj", "{7B9E5423-B3BF-4F7A-A3B5-2E9C4E3BC5CF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +50,10 @@ Global
 		{5113B74B-152F-4DFD-8353-8BDC6E683A0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5113B74B-152F-4DFD-8353-8BDC6E683A0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5113B74B-152F-4DFD-8353-8BDC6E683A0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B9E5423-B3BF-4F7A-A3B5-2E9C4E3BC5CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B9E5423-B3BF-4F7A-A3B5-2E9C4E3BC5CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B9E5423-B3BF-4F7A-A3B5-2E9C4E3BC5CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B9E5423-B3BF-4F7A-A3B5-2E9C4E3BC5CF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -18,16 +18,20 @@
 
   <ItemGroup>
     <PackageReference Include="Auth0.AspNetCore.Authentication" Version="1.2.0" />
-    <PackageReference Include="Microsoft.Orleans.CodeGenerator" Version="7.1.0">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Orleans.Persistence.AdoNet" Version="7.1.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
-    <PackageReference Include="Npgsql" Version="7.0.2" />
-    <PackageReference Include="OrleansDashboard" Version="7.2.0" />
-    <PackageReference Include="Serilog" Version="2.12.0" />
-    <PackageReference Include="Serilog.AspNetCore" Version="6.1.0" />
+    <PackageReference Include="Microsoft.Orleans.CodeGenerator" Version="7.1.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Orleans.Persistence.AdoNet" Version="7.1.2" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.18.1" />
+    <PackageReference Include="Npgsql" Version="7.0.4" />
+    <PackageReference Include="OrleansDashboard" Version="7.2.1" />
+    <PackageReference Include="Serilog" Version="3.0.1" />
+    <PackageReference Include="Serilog.AspNetCore" Version="7.0.0" />
     <PackageReference Include="Serilog.Enrichers.Demystifier" Version="1.0.2" />
     <PackageReference Include="Serilog.Enrichers.Environment" Version="2.2.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
@@ -35,6 +39,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ZMDB.Core\ZMDB.Core.csproj" />
+    <ProjectReference Include="..\ZMDB.DbContexts\ZMDB.DbContexts.csproj" />
     <ProjectReference Include="..\ZMDB.MovieServer\ZMDB.MovieServer.csproj" />
   </ItemGroup>
 

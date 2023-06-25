@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ZMDB.DbContexts\ZMDB.DbContexts.csproj" />
     <ProjectReference Include="..\ZMDB.Grains\ZMDB.Grains.csproj" />
   </ItemGroup>
 
