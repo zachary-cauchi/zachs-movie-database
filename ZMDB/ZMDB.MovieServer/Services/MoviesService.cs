@@ -20,14 +20,14 @@ namespace ZMDB.MovieServer.Services
             _movieGrainClient = movieGrainClient;
         }
 
-        public async Task<Movie> GetMovie(int id)
+        public async Task<Movie> GetMovie(long id)
         {
             var result = await _movieGrainClient.Get(id).ConfigureAwait(false);
 
             return result;
         }
 
-        public async Task SetMovie(int id, Movie movie)
+        public async Task SetMovie(long id, Movie movie)
         {
             await _movieGrainClient.Set(id, movie).ConfigureAwait(false);
         }

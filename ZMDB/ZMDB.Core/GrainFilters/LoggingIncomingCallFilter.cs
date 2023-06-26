@@ -80,7 +80,7 @@ namespace ZMDB.Core.GrainFilters
         {
             var grainType = context.Grain.GetType();
             var grainName = grainType.GetDemystifiedName();
-            var shouldHaveDetailedTrace = grainType.Namespace.StartsWith("ZMDB.Grains");
+            var shouldHaveDetailedTrace = grainType.Namespace?.StartsWith("ZMDB.Grains") ?? false;
 
             if (!shouldHaveDetailedTrace)
             {

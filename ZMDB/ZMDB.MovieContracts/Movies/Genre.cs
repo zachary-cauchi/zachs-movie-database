@@ -14,7 +14,7 @@ namespace ZMDB.MovieContracts.Movie
     {
 
         [JsonProperty(PropertyName = "Id")]
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         [JsonProperty(PropertyName = "Name")]
         public string Name { get; set; } = String.Empty;

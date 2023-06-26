@@ -11,10 +11,10 @@ namespace ZMDB.MovieContracts.Interfaces
         public bool IsDeleted { get; set; } = false;
 
         [JsonProperty(PropertyName = "CreatedAt")]
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime? CreatedAt { get; set; } = null;
 
         [JsonProperty(PropertyName = "UpdatedAt")]
-        public DateTime UpdatedAt { get; set; } = DateTime.Now;
+        public DateTime? UpdatedAt { get; set; } = null;
 
         [JsonProperty(PropertyName = "DeletedAt")]
         public DateTime? DeletedAt { get; set; } = null;
